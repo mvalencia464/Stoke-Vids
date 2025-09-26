@@ -5,9 +5,9 @@ import { fileToBase64 } from '../utils/fileUtils';
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export async function generateVideoFromImage(imageFile: File, prompt: string, aspectRatio: string): Promise<string> {
-  const apiKey = process.env.API_KEY;
+  const apiKey = process.env.VITE_API_KEY;
   if (!apiKey) {
-    throw new Error("API_KEY environment variable is not set.");
+    throw new Error("VITE_API_KEY environment variable is not set.");
   }
   const ai = new GoogleGenAI({ apiKey });
 

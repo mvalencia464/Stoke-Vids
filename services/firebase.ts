@@ -8,12 +8,12 @@ import {
 } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
+  apiKey: process.env.VITE_FIREBASE_API_KEY,
+  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VITE_FIREBASE_APP_ID,
 };
 
 // Check if all necessary Firebase config keys are present.
@@ -33,7 +33,7 @@ if (isFirebaseConfigValid) {
     // auth remains null, disabling authentication features.
   }
 } else {
-    console.warn("Firebase configuration is missing or incomplete in environment variables. Authentication will be disabled. Please provide FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, and FIREBASE_PROJECT_ID.");
+    console.warn("Firebase configuration is missing or incomplete in environment variables. Authentication will be disabled. Please provide VITE_FIREBASE_API_KEY, VITE_FIREBASE_AUTH_DOMAIN, and VITE_FIREBASE_PROJECT_ID.");
 }
 
 export { 

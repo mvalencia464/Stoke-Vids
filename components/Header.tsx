@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { User } from 'firebase/auth';
+import { ChevronDownIcon } from './icons';
 
 interface HeaderProps {
     user: User | null;
@@ -30,15 +31,27 @@ export const Header: React.FC<HeaderProps> = ({ user, onSignOut }) => {
         </h1>
         {user && (
             <div className="relative" ref={dropdownRef}>
-                <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-purple-500">
+                <button 
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
+                  className="flex items-center gap-1.5 rounded-full p-1 pr-2 transition-colors duration-200 hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-purple-500"
+                  aria-haspopup="true"
+                  aria-expanded={isDropdownOpen}
+                  id="user-menu-button"
+                >
                     <img
-                        className="h-9 w-9 rounded-full"
+                        className="h-8 w-8 rounded-full"
                         src={user.photoURL || undefined}
                         alt="User profile"
                     />
+                    <ChevronDownIcon />
                 </button>
                 {isDropdownOpen && (
-                    <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none animate-fade-in-fast">
+                    <div 
+                      className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none animate-fade-in-fast" 
+                      role="menu" 
+                      aria-orientation="vertical" 
+                      aria-labelledby="user-menu-button"
+                    >
                         <div className="px-4 py-2 text-sm text-gray-300 border-b border-gray-700">
                            <p className="font-semibold truncate">{user.displayName}</p>
                            <p className="text-xs text-gray-400 truncate">{user.email}</p>
@@ -49,6 +62,7 @@ export const Header: React.FC<HeaderProps> = ({ user, onSignOut }) => {
                                 setIsDropdownOpen(false);
                             }}
                             className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
+                            role="menuitem"
                         >
                             Sign Out
                         </button>
