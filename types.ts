@@ -1,0 +1,7 @@
+export enum AppState {
+  IDLE = 'IDLE',
+  IMAGE_SELECTED = 'IMAGE_SELECTED',
+  GENERATING = 'GENERATING',
+  VIDEO_READY = 'VIDEO_READY',
+  ERROR = 'ERROR',
+}

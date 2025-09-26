@@ -1,0 +1,5 @@
+{
+  "name": "Stoke Vids",
+  "description": "An application that uses AI to convert your static images into compelling, short video ads. Simply upload an image, provide a prompt, and let the AI director create a unique video for you.",
+  "requestFramePermissions": []
+}
