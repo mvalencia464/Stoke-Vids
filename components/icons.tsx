@@ -71,3 +71,9 @@ export const ChevronDownIcon: React.FC = () => (
     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 9-7 7-7-7"/>
   </svg>
 );
+
+export const ConfigErrorIcon: React.FC = () => (
+    <svg className="w-12 h-12 text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+    </svg>
+);

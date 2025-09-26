@@ -4,13 +4,10 @@ import { Footer } from './components/Footer';
 import { ImageUploader } from './components/ImageUploader';
 import { LoadingIndicator } from './components/LoadingIndicator';
 import { VideoPlayer } from './components/VideoPlayer';
-import { Login } from './components/Login';
 import { generateVideoFromImage } from './services/geminiService';
 import { AppState } from './types';
 import { StartOverIcon, MagicWandIcon } from './components/icons';
 import { AspectRatioSelector } from './components/AspectRatioSelector';
-import { auth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from './services/firebase';
-import type { User } from 'firebase/auth';
 
 const LOADING_MESSAGES = [
   'Warming up the AI director...',
@@ -31,22 +28,6 @@ export default function App() {
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loadingMessage, setLoadingMessage] = useState<string>(LOADING_MESSAGES[0]);
-  
-  const [user, setUser] = useState<User | null>(null);
-  const [authLoading, setAuthLoading] = useState(true);
-
-  useEffect(() => {
-    // Gracefully handle missing Firebase configuration
-    if (!auth) {
-      setAuthLoading(false);
-      return;
-    }
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setAuthLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
 
   useEffect(() => {
     if (appState === AppState.GENERATING) {
@@ -97,37 +78,10 @@ export default function App() {
     setError(null);
     setAspectRatio('16:9');
   };
-  
-  const handleGoogleSignIn = async () => {
-    if (!auth) {
-      console.error("Firebase Auth is not initialized. Check your configuration.");
-      setError("Authentication is not available. Please check the application configuration.");
-      setAppState(AppState.ERROR);
-      return;
-    }
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (error: any) {
-      console.error("Authentication error:", error);
-      setError(`Failed to sign in: ${error.message}`);
-      setAppState(AppState.ERROR);
-    }
-  };
-  
-  const handleSignOut = async () => {
-    if (!auth) return;
-    try {
-      await signOut(auth);
-      handleReset();
-    } catch (error) {
-      console.error("Sign out error:", error);
-    }
-  };
 
   const isGenerateDisabled = appState === AppState.GENERATING || !prompt.trim();
 
-  const renderContent = () => {
+  const renderCoreContent = () => {
     switch (appState) {
       case AppState.GENERATING:
         return <LoadingIndicator message={loadingMessage} />;
@@ -180,15 +134,9 @@ export default function App() {
 
   return (
     <div className="bg-gray-900 text-white min-h-screen flex flex-col">
-      <Header user={user} onSignOut={handleSignOut} />
+      <Header />
       <main className="flex-grow flex flex-col items-center justify-center p-4 md:p-8">
-        {authLoading ? (
-          <LoadingIndicator message="Initializing..." />
-        ) : (user || !auth) ? (
-          renderContent()
-        ) : (
-          <Login onSignIn={handleGoogleSignIn} />
-        )}
+        {renderCoreContent()}
       </main>
       <Footer />
     </div>
